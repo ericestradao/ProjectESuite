@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,83 +25,69 @@ import com.eric.dao.DeptRepo;
 import com.eric.dao.EmployeeRepo;
 import com.eric.model.Department;
 import com.eric.model.Employee;
+import com.eric.service.AdminService;
 
+@RequestMapping(value = "/Admin**", method = RequestMethod.GET)
 @RestController
 public class AdminController {
 	@Autowired
-	private EmployeeRepo empRepo;
-	@Autowired
-	private DeptRepo deptRepo;
+	private AdminService adminService;
+
 //	@GetMapping("/")
 //	public String Hello(){
 //		return "Hello world";
 //	}
 //	
-	
 	@GetMapping("/employees")
 	public List<Employee> retrieveAllEmployees() {
-		return (List<Employee>) empRepo.findAll();
+		return adminService.retrieveAllEmployees();
 	}
-	
-    @RequestMapping(path="/employee/{id}")
+
+//	@GetMapping("/employees")
+//	public List<Employee> retrieveAllEmployees() {
+//		return (List<Employee>) empRepo.findAll();
+//	}
+
+	@RequestMapping(path = "/employee/{id}")
 	public Employee retrieveEmployee(@PathVariable("id") long id) {
-		Optional<Employee> employee = empRepo.findById(id);
-		
-		if(!employee.isPresent())
-			throw new AdminNotFoundException("id-" + id);
-		
-		return employee.get();
+		return adminService.retrieveEmployee(id);
 	}
-	
+
 	@DeleteMapping("/employee/{id}")
 	public void deleteEmployee(@PathVariable long id) {
-		empRepo.deleteById(id);
+		return;
 	}
 
 	@PostMapping("/newEmployee/{deptname}")
-    public Employee create(@RequestBody Employee emp, @PathVariable String deptname){
-		Department department = deptRepo.findBydeptName(deptname);
-		emp.setDept_id(department);
-		return empRepo.save(emp);
-		
+	public Employee create(@RequestBody Employee emp, @PathVariable String deptname) {
+		return adminService.create(emp, deptname);
+
 	}
 
 	@PutMapping("/employee/{id}")
-    public Employee update(@RequestBody Employee emp, @PathVariable Long id){
-        Employee employee = empRepo.findByEmpid(id);
-        emp.setEmpid(employee.getEmpid());
-        emp.setDept_id(employee.getDept_id());
+	public Employee update(@RequestBody Employee emp, @PathVariable Long id) {
+		return adminService.update(emp, id);
+	}
 
-        return empRepo.save(emp);
-    }
-	
 	@GetMapping("/departments")
 	public List<Department> retrieveAllDepartments() {
-		return (List<Department>) deptRepo.findAll();
+		return adminService.retrieveAllDepartments();
 	}
-	
-	@RequestMapping(path="/department/{deptname}")
-	public Department retrieveDepartment(@PathVariable("deptname") String deptname) {
-		Department department = deptRepo.findBydeptName(deptname);
-		
-		return department;
-	}
-	
-	@PostMapping("/newDepartment")
-    public Department create(@RequestBody String deptname){
-		Department department = new Department();
-		department.setDeptname(deptname);
-		return deptRepo.save(department);
-		
-	}
-	
-	@PutMapping("/department/{deptname}")
-    public Department update(@RequestBody Department dept, @PathVariable String deptname){
-        Department department = deptRepo.findBydeptName(deptname);
-        dept.setDept_id(department.getDept_id());
-        dept.setDeptname(department.getDeptname());
 
-        return deptRepo.save(dept);
-    }
-	
+	@RequestMapping(path = "/department/{deptname}")
+	public Department retrieveDepartment(@PathVariable("deptname") String deptname) {
+		return adminService.retrieveDepartment(deptname);
+	}
+
+	@PostMapping("/newDepartment")
+	public Department create(@RequestBody String deptname) {
+		return adminService.create(deptname);
+
+	}
+
+	@PutMapping("/department/{deptname}")
+	public Department update(@RequestBody Department dept, @PathVariable String deptname) {
+		return adminService.update(dept, deptname);
+	}
+
 }
