@@ -25,6 +25,8 @@ import com.eric.dao.DeptRepo;
 import com.eric.dao.EmployeeRepo;
 import com.eric.model.Department;
 import com.eric.model.Employee;
+import com.eric.model.MeetingRoom;
+import com.eric.model.Tasks;
 import com.eric.service.AdminService;
 
 @RequestMapping(value = "/Admin**", method = RequestMethod.GET)
@@ -32,21 +34,13 @@ import com.eric.service.AdminService;
 public class AdminController {
 	@Autowired
 	private AdminService adminService;
-
-//	@GetMapping("/")
-//	public String Hello(){
-//		return "Hello world";
-//	}
-//	
+	
+	//EMPLOYEES
+	
 	@GetMapping("/employees")
 	public List<Employee> retrieveAllEmployees() {
 		return adminService.retrieveAllEmployees();
 	}
-
-//	@GetMapping("/employees")
-//	public List<Employee> retrieveAllEmployees() {
-//		return (List<Employee>) empRepo.findAll();
-//	}
 
 	@RequestMapping(path = "/employee/{id}")
 	public Employee retrieveEmployee(@PathVariable("id") long id) {
@@ -55,19 +49,21 @@ public class AdminController {
 
 	@DeleteMapping("/employee/{id}")
 	public void deleteEmployee(@PathVariable long id) {
-		return;
+		adminService.deleteEmployee(id);
 	}
-
+	
 	@PostMapping("/newEmployee/{deptname}")
 	public Employee create(@RequestBody Employee emp, @PathVariable String deptname) {
 		return adminService.create(emp, deptname);
 
 	}
 
-	@PutMapping("/employee/{id}")
+	@PutMapping("/updateEmployee/{id}")
 	public Employee update(@RequestBody Employee emp, @PathVariable Long id) {
 		return adminService.update(emp, id);
 	}
+	
+	//DEPARTMENTS
 
 	@GetMapping("/departments")
 	public List<Department> retrieveAllDepartments() {
@@ -80,14 +76,57 @@ public class AdminController {
 	}
 
 	@PostMapping("/newDepartment")
-	public Department create(@RequestBody String deptname) {
-		return adminService.create(deptname);
+	public Department createDepartment(@RequestBody String deptname) {
+		return adminService.createDepartment(deptname);
 
 	}
 
-	@PutMapping("/department/{deptname}")
+	@PutMapping("/updateDepartment/{deptname}")
 	public Department update(@RequestBody Department dept, @PathVariable String deptname) {
 		return adminService.update(dept, deptname);
 	}
+	
+	//MEETING ROOMS
+	
+	@GetMapping("/meetingRooms")
+	public List<MeetingRoom> retrieveAllMeetingRooms() {
+		return adminService.retrieveAllMeetingRooms();
+	}
+	
+	@RequestMapping(path = "/meetingRoom/{roomId}")
+	public Optional<MeetingRoom> retrieveMeetingRoom(@PathVariable("roomId") long roomId) {
+		return adminService.retrieveMeetingRoom(roomId);
+	}
+	
+	@PostMapping("/newMeetingRoom")
+	public MeetingRoom createMeetingRoom(@RequestBody MeetingRoom mRoom) {
+		return adminService.createMeetingRoom(mRoom);
+	}
+	
+	@PutMapping("/updateMeetingRoom/{roomId}")
+	public MeetingRoom updateMeetingRoom(@RequestBody MeetingRoom meetingRoom, @PathVariable long roomId) {
+		return adminService.updateMeetingRoom(meetingRoom, roomId);
+	}
+	
+	//TASKS
 
+	@GetMapping("/tasks")
+	public List<Tasks> retrieveAllTasks() {
+		return adminService.retrieveAllTasks();
+	}
+	
+	@RequestMapping(path = "/task/{taskId}")
+	public Optional<Tasks> retrieveTask(@PathVariable("taskId") long taskId) {
+		return adminService.retrieveTask(taskId);
+	}
+	
+	@PostMapping("/newTask")
+	public Tasks createTask(@RequestBody Tasks tasks) {
+		return adminService.createTask(tasks);
+	}
+	
+	@PutMapping("/updateTask/{taskId}")
+	public Tasks updateTask(@RequestBody Tasks tasks, @PathVariable long taskId) {
+		return adminService.updateTask(tasks, taskId);
+	}
 }
