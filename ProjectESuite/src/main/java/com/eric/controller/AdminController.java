@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,9 @@ import com.eric.model.MeetingRoom;
 import com.eric.model.Tasks;
 import com.eric.service.AdminService;
 
-@RequestMapping(value = "/Admin**", method = RequestMethod.GET)
+@CrossOrigin(origins="http://localhost:4200")
+//@RequestMapping(value = "/Admin**")
+@RequestMapping({"/Admin**"})
 @RestController
 public class AdminController {
 	@Autowired
@@ -76,8 +79,8 @@ public class AdminController {
 	}
 
 	@PostMapping("/newDepartment")
-	public Department createDepartment(@RequestBody String deptname) {
-		return adminService.createDepartment(deptname);
+	public Department createDepartment(@RequestBody Department dept) {
+		return adminService.createDepartment(dept);
 
 	}
 
@@ -120,13 +123,19 @@ public class AdminController {
 		return adminService.retrieveTask(taskId);
 	}
 	
-	@PostMapping("/newTask")
-	public Tasks createTask(@RequestBody Tasks tasks) {
-		return adminService.createTask(tasks);
+	@PostMapping("/newTask/{assignedBy}/{assignedTo}")
+	public Tasks createTask(@RequestBody Tasks tasks, @PathVariable long assignedBy, @PathVariable long assignedTo) {
+		System.out.println(assignedBy+assignedTo);
+		return adminService.createTask(tasks, assignedBy, assignedTo);
 	}
 	
 	@PutMapping("/updateTask/{taskId}")
 	public Tasks updateTask(@RequestBody Tasks tasks, @PathVariable long taskId) {
 		return adminService.updateTask(tasks, taskId);
+	}
+	
+	@DeleteMapping("/task/{taskId}")
+	public void deleteTask(@PathVariable long taskId) {
+		adminService.deleteTask(taskId);
 	}
 }

@@ -21,8 +21,9 @@ import com.eric.model.JwtResponse;
 import com.eric.model.UserDTO;
 import com.eric.service.JwtUserDetailsService;
 
+
 @RestController
-@CrossOrigin
+@CrossOrigin(origins="http://localhost:4200")
 public class JwtAuthenticationController {
 
 	@Autowired

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.eric.controller.AdminNotFoundException;
 import com.eric.dao.DeptRepo;
@@ -23,6 +24,7 @@ import com.eric.model.MeetingRoom;
 import com.eric.model.Meetings;
 import com.eric.model.Tasks;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @Service
 public class AdminService {
 
@@ -95,10 +97,8 @@ public class AdminService {
 		return department;
 	}
 
-	public Department createDepartment(String deptname) {
-		Department department = new Department();
-		department.setDeptname(deptname);
-		return deptRepo.save(department);
+	public Department createDepartment(Department dept) {
+		return deptRepo.save(dept);
 	}
 
 	public Department update(Department dept, String deptname) {
@@ -136,7 +136,11 @@ public class AdminService {
 		return (List<Tasks>) taskRepo.findAll();
 	}
 	
-	public Tasks createTask(Tasks tasks) {
+	public Tasks createTask(Tasks tasks, long assignedBy, long assignedTo) {
+		Employee by = empRepo.findByEmpid(assignedBy);
+		Employee to = empRepo.findByEmpid(assignedTo);
+		tasks.setAssignedBy(by);
+		tasks.setAssignedTo(to);
 		return taskRepo.save(tasks);
 	}
 	
@@ -150,5 +154,8 @@ public class AdminService {
 		Optional<Tasks> task = taskRepo.findById(taskId);
 		return taskRepo.save(tasks);
 	}	
-
+	
+	public void deleteTask(long taskId) {
+		taskRepo.deleteById(taskId);
+	}
 }
