@@ -20,7 +20,7 @@ public class TrainingRoom {
 	
     private String roomName;
     
-    private Long roomCapacity;
+    private int roomCapacity;
     
     private int floorNb;
     
@@ -33,7 +33,7 @@ public class TrainingRoom {
     
 	public TrainingRoom() {}
 
-	public TrainingRoom(Long roomId, String roomName, Long roomCapacity, int floorNb, boolean isProjector,
+	public TrainingRoom(Long roomId, String roomName, int roomCapacity, int floorNb, boolean isProjector,
 			boolean isWhiteboard, Set<LocalDate> reservedDates) {
 		super();
 		this.roomId = roomId;
@@ -61,11 +61,11 @@ public class TrainingRoom {
 		this.roomName = roomName;
 	}
 
-	public Long getRoomCapacity() {
+	public int getRoomCapacity() {
 		return roomCapacity;
 	}
 
-	public void setRoomCapacity(Long roomCapacity) {
+	public void setRoomCapacity(int roomCapacity) {
 		this.roomCapacity = roomCapacity;
 	}
 

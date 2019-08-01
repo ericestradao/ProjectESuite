@@ -18,7 +18,8 @@ public class Meetings {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long requestId;
 	
-    private Long MeetingRoomId;
+	@OneToOne
+    private MeetingRoom roomId;
     
     private Timestamp startTime;
     
@@ -26,20 +27,23 @@ public class Meetings {
     
     private String meetingDesc;
     
+    private String approve;
+    
     @OneToOne
     @JoinColumn(name="empid")
     private Employee empid;
     
 	public Meetings() {}
 
-	public Meetings(Long requestId, Long meetingRoomId, Timestamp startTime, Timestamp endTime, String meetingDesc,
-			Employee empid) {
+	public Meetings(Long requestId, MeetingRoom roomId, Timestamp startTime, Timestamp endTime, String meetingDesc,
+			String approve, Employee empid) {
 		super();
 		this.requestId = requestId;
-		MeetingRoomId = meetingRoomId;
+		this.roomId = roomId;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.meetingDesc = meetingDesc;
+		this.approve = approve;
 		this.empid = empid;
 	}
 
@@ -51,12 +55,12 @@ public class Meetings {
 		this.requestId = requestId;
 	}
 
-	public Long getMeetingRoomId() {
-		return MeetingRoomId;
+	public MeetingRoom getRoomId() {
+		return roomId;
 	}
 
-	public void setMeetingRoomId(Long meetingRoomId) {
-		MeetingRoomId = meetingRoomId;
+	public void setRoomId(MeetingRoom roomId) {
+		this.roomId = roomId;
 	}
 
 	public Timestamp getStartTime() {
@@ -83,6 +87,14 @@ public class Meetings {
 		this.meetingDesc = meetingDesc;
 	}
 
+	public String getApprove() {
+		return approve;
+	}
+
+	public void setApprove(String approve) {
+		this.approve = approve;
+	}
+	
 	public Employee getEmpid() {
 		return empid;
 	}

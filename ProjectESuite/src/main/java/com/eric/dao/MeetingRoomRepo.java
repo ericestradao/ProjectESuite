@@ -7,6 +7,6 @@ import com.eric.model.MeetingRoom;
 
 @Repository
 public interface MeetingRoomRepo extends CrudRepository<MeetingRoom, Long>{
-	MeetingRoom findByroomId(Long roomId);
+	MeetingRoom findByRoomId(Long roomId);
 
 }

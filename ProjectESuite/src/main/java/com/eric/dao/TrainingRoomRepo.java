@@ -8,4 +8,6 @@ import com.eric.model.TrainingRoom;
 @Repository
 public interface TrainingRoomRepo extends CrudRepository<TrainingRoom, Long>{
 
+	TrainingRoom findByRoomId(Long roomId);
+
 }

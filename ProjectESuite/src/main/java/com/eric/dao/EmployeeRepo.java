@@ -13,5 +13,7 @@ import com.eric.model.Employee;
 @Repository
 public interface EmployeeRepo extends CrudRepository<Employee, Long> {
     Employee findByEmpid(Long empId);
+    Employee findByEmailid(String emailid);
+    //List<Employee> findByEmpid(Long empid);
 
 }

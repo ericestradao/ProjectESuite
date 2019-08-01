@@ -9,5 +9,5 @@ import com.eric.model.Department;
 @CrossOrigin(origins = "http://localhost:4200")
 @Repository
 public interface DeptRepo extends CrudRepository<Department, String>{
-	Department findBydeptName (String deptname);
+	Department findBydeptname (String deptname);
 }

@@ -1,5 +1,6 @@
 package com.eric.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "employee")
@@ -20,22 +23,27 @@ private String f_name;
 
 private String l_name;
 
+@Column(unique=true)
 @Email
 private String emailid;
 
-private Integer contacno;
+@JsonIgnore
+private String password;
+
+private Float contacno;
 
 @OneToOne
 private Department dept_id;
 
 public Employee() {}
 
-public Employee(Long empid, String f_name, String l_name, @Email String emailid, Integer contacno, Department dept_id) {
+public Employee(Long empid, String f_name, String l_name, @Email String emailid, String password, Float contacno, Department dept_id) {
 	super();
 	this.empid = empid;
 	this.f_name = f_name;
 	this.l_name = l_name;
 	this.emailid = emailid;
+	this.password = password;
 	this.contacno = contacno;
 	this.dept_id = dept_id;
 }
@@ -72,11 +80,19 @@ public void setEmailid(String emailid) {
 	this.emailid = emailid;
 }
 
-public Integer getContacno() {
+public String getPassword() {
+	return password;
+}
+
+public void setPassword(String password) {
+	this.password = password;
+}
+
+public Float getContacno() {
 	return contacno;
 }
 
-public void setContacno(Integer contacno) {
+public void setContacno(Float contacno) {
 	this.contacno = contacno;
 }
 

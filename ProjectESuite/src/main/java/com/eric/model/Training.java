@@ -18,28 +18,32 @@ public class Training {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long requestId;
 	
-    private Long trainingRoomId;
+	@OneToOne()
+    private TrainingRoom roomId;
     
     private LocalDate startDate;
     
     private LocalDate endDate;
     
-    private String roomDesc;
+    private String trainingDesc;
     
-    @OneToOne()
+    private String approve;
+
+	@OneToOne()
     @JoinColumn(name="empid")
     private Employee empid;
     
     public Training() {}
 
-	public Training(Long requestId, Long trainingRoomId, LocalDate startDate, LocalDate endDate, String roomDesc,
-			Employee empid) {
+	public Training(Long requestId, TrainingRoom roomId, LocalDate startDate, LocalDate endDate, String trainingDesc,
+			String approve, Employee empid) {
 		super();
 		this.requestId = requestId;
-		this.trainingRoomId = trainingRoomId;
+		this.roomId = roomId;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.roomDesc = roomDesc;
+		this.trainingDesc = trainingDesc;
+		this.approve = approve;
 		this.empid = empid;
 	}
 
@@ -51,12 +55,12 @@ public class Training {
 		this.requestId = requestId;
 	}
 
-	public Long getTrainingRoomId() {
-		return trainingRoomId;
+	public TrainingRoom getRoomId() {
+		return roomId;
 	}
 
-	public void setTrainingRoomId(Long trainingRoomId) {
-		this.trainingRoomId = trainingRoomId;
+	public void setRoomId(TrainingRoom roomId) {
+		this.roomId = roomId;
 	}
 
 	public LocalDate getStartDate() {
@@ -75,12 +79,20 @@ public class Training {
 		this.endDate = endDate;
 	}
 
-	public String getRoomDesc() {
-		return roomDesc;
+	public String getTrainingDesc() {
+		return trainingDesc;
 	}
 
-	public void setRoomDesc(String roomDesc) {
-		this.roomDesc = roomDesc;
+	public void setTrainingDesc(String trainingDesc) {
+		this.trainingDesc = trainingDesc;
+	}
+	
+	public String getApprove() {
+		return approve;
+	}
+
+	public void setApprove(String approve) {
+		this.approve = approve;
 	}
 
 	public Employee getEmpid() {

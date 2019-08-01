@@ -25,7 +25,9 @@ public class LeaveRequest {
     
     private String reason;
     
-    private boolean statue = false;
+    private String approve;
+    
+    private boolean status = false;
     
     @OneToOne
     private Employee empid;
@@ -33,14 +35,15 @@ public class LeaveRequest {
 	public LeaveRequest() {}
 
 	public LeaveRequest(Long leaveId, String leaveType, LocalDate startDate, LocalDate endDate, String reason,
-			boolean statue, Employee empid) {
+			String approve, boolean status, Employee empid) {
 		super();
 		this.leaveId = leaveId;
 		this.leaveType = leaveType;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.reason = reason;
-		this.statue = statue;
+		this.status = status;
+		this.approve = approve;
 		this.empid = empid;
 	}
 
@@ -83,13 +86,21 @@ public class LeaveRequest {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-
-	public boolean isStatue() {
-		return statue;
+	
+	public String getApprove() {
+		return approve;
 	}
 
-	public void setStatue(boolean statue) {
-		this.statue = statue;
+	public void setApprove(String approve) {
+		this.approve = approve;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public Employee getEmpid() {

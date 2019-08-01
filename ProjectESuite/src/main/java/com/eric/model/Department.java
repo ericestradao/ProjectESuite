@@ -14,14 +14,14 @@ public class Department {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long dept_id;
 	
-	private String deptName;
+	private String deptname;
 	
 	public Department() {}
 	
 	public Department(Long dept_id, String deptname) {
 		super();
 		this.dept_id = dept_id;
-		this.deptName = deptname;
+		this.deptname = deptname;
 	}
 
 	public Long getDept_id() {
@@ -33,11 +33,11 @@ public class Department {
 	}
 
 	public String getDeptname() {
-		return deptName;
+		return deptname;
 	}
 
 	public void setDeptname(String deptname) {
-		this.deptName = deptname;
+		this.deptname = deptname;
 	}
 
 }

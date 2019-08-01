@@ -1,5 +1,7 @@
 package com.eric.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,9 +22,9 @@ public class Tasks {
 	
     private String taskDesc;
     
-    private String startDate;
+    private LocalDate startDate;
     
-    private String endDate;
+    private LocalDate endDate;
     
     @OneToOne
     private Employee assignedTo;
@@ -35,7 +37,7 @@ public class Tasks {
     
     public Tasks() {}
 
-	public Tasks(Long taskId, String taskName, String taskDesc, String startDate, String endDate, Employee assignedTo,
+	public Tasks(Long taskId, String taskName, String taskDesc, LocalDate startDate, LocalDate endDate, Employee assignedTo,
 			Employee assignedBy, boolean status) {
 		super();
 		this.taskId = taskId;
@@ -72,19 +74,19 @@ public class Tasks {
 		this.taskDesc = taskDesc;
 	}
 
-	public String getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(String startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(String endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
