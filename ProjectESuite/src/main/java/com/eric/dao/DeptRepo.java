@@ -8,6 +8,6 @@ import com.eric.model.Department;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @Repository
-public interface DeptRepo extends CrudRepository<Department, String>{
+public interface DeptRepo extends CrudRepository<Department, Long>{
 	Department findBydeptname (String deptname);
 }

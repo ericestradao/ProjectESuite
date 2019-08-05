@@ -30,14 +30,14 @@ private String emailid;
 @JsonIgnore
 private String password;
 
-private Float contacno;
+private Long contacno;
 
 @OneToOne
 private Department dept_id;
 
 public Employee() {}
 
-public Employee(Long empid, String f_name, String l_name, @Email String emailid, String password, Float contacno, Department dept_id) {
+public Employee(Long empid, String f_name, String l_name, @Email String emailid, String password, Long contacno, Department dept_id) {
 	super();
 	this.empid = empid;
 	this.f_name = f_name;
@@ -88,11 +88,11 @@ public void setPassword(String password) {
 	this.password = password;
 }
 
-public Float getContacno() {
+public Long getContacno() {
 	return contacno;
 }
 
-public void setContacno(Float contacno) {
+public void setContacno(Long contacno) {
 	this.contacno = contacno;
 }
 

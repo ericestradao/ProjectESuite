@@ -86,6 +86,11 @@ public class AdminController {
 		return adminService.update(emp, id);
 	}
 	
+//	@PutMapping("/updateEmployee/{empid}")
+//	public ResponseEntity<Object> update(@RequestBody Employee employee, @PathVariable Long empid) {
+//		return adminService.update(employee, empid);
+//	}
+//	
 	//DEPARTMENTS
 
 	@GetMapping("/departments")
@@ -105,11 +110,15 @@ public class AdminController {
 
 	}
 
-	@PutMapping("/updateDepartment/{deptname}")
-	public Department update(@RequestBody Department dept, @PathVariable String deptname) {
-		return adminService.update(dept, deptname);
+	@PutMapping("/updateDepartment/{dept_id}")
+	public Department update(@RequestBody Department dept, @PathVariable Long dept_id) {
+		return adminService.update(dept, dept_id);
 	}
 	
+	@DeleteMapping("/department/{dept_id}")
+	public void deleteDepartment(@PathVariable Long dept_id) {
+		adminService.deleteDepartment(dept_id);
+	}
 	//MEETING ROOMS
 	
 	@GetMapping("/meetingRooms")
@@ -128,8 +137,13 @@ public class AdminController {
 	}
 	
 	@PutMapping("/updateMeetingRoom/{roomId}")
-	public MeetingRoom updateMeetingRoom(@RequestBody MeetingRoom meetingRoom, @PathVariable long roomId) {
+	public MeetingRoom updateMeetingRoom(@RequestBody MeetingRoom meetingRoom, @PathVariable Long roomId) {
 		return adminService.updateMeetingRoom(meetingRoom, roomId);
+	}
+	
+	@DeleteMapping("/meetingRoom/{roomId}")
+	public void deleteMeetingRoom(@PathVariable Long roomId) {
+		adminService.deleteMeetingRoom(roomId);
 	}
 
 	//TRAINING ROOMS
@@ -150,8 +164,13 @@ public class AdminController {
 	}
 	
 	@PutMapping("/updateTrainingRoom/{roomId}")
-	public TrainingRoom updateTrainingRoom(@RequestBody TrainingRoom trainingRoom, @PathVariable long roomId) {
+	public TrainingRoom updateTrainingRoom(@RequestBody TrainingRoom trainingRoom, @PathVariable Long roomId) {
 		return adminService.updateTrainingRoom(trainingRoom, roomId);
+	}
+	
+	@DeleteMapping("/trainingRoom/{roomId}")
+	public void deleteTrainingRoom(@PathVariable Long roomId) {
+		adminService.deleteTrainingRoom(roomId);
 	}
 	
 	//TASKS
@@ -173,7 +192,7 @@ public class AdminController {
 	}
 	
 	@PutMapping("/updateTask/{taskId}")
-	public Tasks updateTask(@RequestBody Tasks tasks, @PathVariable long taskId) {
+	public Tasks updateTask(@RequestBody Tasks tasks, @PathVariable Long taskId) {
 		return adminService.updateTask(tasks, taskId);
 	}
 	
@@ -189,19 +208,19 @@ public class AdminController {
 		return adminService.retrieveAllRequests();
 	}
 	
-//	@RequestMapping(path = "/leaveRequest/{empid}")
-//	public List<LeaveRequest> retrieveRequest(@PathVariable("empid") Employee empid) {
-//		return adminService.retrieveRequest(empid);
-//	}
-//	
+	@RequestMapping(path = "/leaveRequest/{requestId}")
+	public Optional<LeaveRequest> retrieveRequest(@PathVariable("requestId") Long requestId) {
+		return adminService.retrieveRequest(requestId);
+	}
+	
 	@PostMapping("/newRequest/{empid}")
 	public LeaveRequest createRequest(@RequestBody LeaveRequest leaveRequest, @PathVariable long empid) {
 		return adminService.createRequest(leaveRequest, empid);
 	}
 	
 	@PutMapping("/updateRequest/{leaveId}")
-	public LeaveRequest updateRequest(@RequestBody LeaveRequest leaveRequest, @PathVariable long empid) {
-		return adminService.updateRequest(leaveRequest, empid);
+	public LeaveRequest updateRequest(@RequestBody LeaveRequest leaveRequest, @PathVariable Long leaveId) {
+		return adminService.updateRequest(leaveRequest, leaveId);
 	}
 	
 	@DeleteMapping("/leaveRequest/{leaveId}")
@@ -232,7 +251,7 @@ public class AdminController {
 	}
 	
 	@PutMapping("/updateMeeting/{requestId}")
-	public Meetings updateMeeting(@RequestBody Meetings meetings, @PathVariable long requestId) {
+	public Meetings updateMeeting(@RequestBody Meetings meetings, @PathVariable Long requestId) {
 		return adminService.updateMeeting(meetings, requestId);
 	}
 	
@@ -264,7 +283,7 @@ public class AdminController {
 	}
 	
 	@PutMapping("/updateTraining/{requestId}")
-	public Training updateTraining(@RequestBody Training training, @PathVariable long requestId) {
+	public Training updateTraining(@RequestBody Training training, @PathVariable Long requestId) {
 		return adminService.updateTraining(training, requestId);
 	}
 	

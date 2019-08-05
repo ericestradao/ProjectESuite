@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import com.eric.controller.AdminNotFoundException;
 import com.eric.dao.DeptRepo;
 import com.eric.dao.EmployeeRepo;
@@ -83,10 +82,13 @@ public class AdminService {
 	}
 
 	public Employee update(Employee emp, Long id) {
+		System.out.println(emp.getContacno());
 		Employee employee = empRepo.findByEmpid(id);
 		emp.setEmpid(employee.getEmpid());
 		emp.setDept_id(employee.getDept_id());
+		emp.setPassword(employee.getPassword());
 
+		
 		return empRepo.save(emp);
 	}
 
@@ -106,12 +108,15 @@ public class AdminService {
 		return deptRepo.save(dept);
 	}
 
-	public Department update(Department dept, String deptname) {
-		Department department = deptRepo.findBydeptname(deptname);
-		dept.setDept_id(department.getDept_id());
-		dept.setDeptname(department.getDeptname());
+	public Department update(Department dept, Long dept_id) {
+		Optional<Department> department = deptRepo.findById(dept_id);
+		dept.setDept_id(department.get().getDept_id());
 
 		return deptRepo.save(dept);
+	}
+	
+	public void deleteDepartment(Long dept_id) {
+		deptRepo.deleteById(dept_id);
 	}
 	
 	//MEETING ROOMS
@@ -130,9 +135,15 @@ public class AdminService {
 		return meetingRoom;
 	}
 	
-	public MeetingRoom updateMeetingRoom(MeetingRoom mRoom, long roomId) {
-		Optional<MeetingRoom> meetingRoom = meetingRoomRepo.findById(roomId);
-		return meetingRoomRepo.save(mRoom);
+	public MeetingRoom updateMeetingRoom(MeetingRoom meetingRoom, Long roomId) {
+		Optional<MeetingRoom> room = meetingRoomRepo.findById(roomId);
+		meetingRoom.setRoomId(room.get().getRoomId());
+
+		return meetingRoomRepo.save(meetingRoom);
+	}
+	
+	public void deleteMeetingRoom(Long roomId) {
+		meetingRoomRepo.deleteById(roomId);
 	}
 	
 	//TRAINING ROOMS
@@ -151,9 +162,15 @@ public class AdminService {
 		return trainingRoom;
 	}
 	
-	public TrainingRoom updateTrainingRoom(TrainingRoom tRoom, long roomId) {
-		Optional<TrainingRoom> trainingRoom = trainingRoomRepo.findById(roomId);
-		return trainingRoomRepo.save(tRoom);
+	public TrainingRoom updateTrainingRoom(TrainingRoom trainingRoom, Long roomId) {
+		Optional<TrainingRoom> room = trainingRoomRepo.findById(roomId);
+		trainingRoom.setRoomId(room.get().getRoomId());
+
+		return trainingRoomRepo.save(trainingRoom);
+	}
+	
+	public void deleteTrainingRoom(Long roomId) {
+		trainingRoomRepo.deleteById(roomId);
 	}
 	
 	//TASKS
@@ -176,10 +193,16 @@ public class AdminService {
 		return tasks;
 	}
 	
-	public Tasks updateTask(Tasks tasks, long taskId) {
-		Optional<Tasks> task = taskRepo.findById(taskId);
+	public Tasks updateTask(Tasks tasks, Long taskId) {
+		Tasks task = taskRepo.findBytaskId(taskId);
+		tasks.setTaskId(task.getTaskId());
+		tasks.setStatus(task.isStatus());
+		tasks.setAssignedBy(task.getAssignedBy());
+		tasks.setAssignedTo(task.getAssignedTo());
+
+		
 		return taskRepo.save(tasks);
-	}	
+	}
 	
 	public void deleteTask(long taskId) {
 		taskRepo.deleteById(taskId);
@@ -197,15 +220,23 @@ public class AdminService {
 		return leaveRepo.save(leaveRequest);
 	}
 	
-//	public List<LeaveRequest> retrieveRequest(Employee empid) {
-//		return (List<LeaveRequest>)leaveRepo.findByEmpid(empid);
-//	}
-	
-	public LeaveRequest updateRequest(LeaveRequest leaveRequest, long leaveId) {
-		Optional<LeaveRequest> leave = leaveRepo.findById(leaveId);
-		return leaveRepo.save(leaveRequest);
+	public Optional<LeaveRequest> retrieveRequest(Long leaveId) {
+		Optional<LeaveRequest> leaveRequest = leaveRepo.findById(leaveId);
 
-	}	
+		return leaveRequest;
+	}
+	
+	
+	public LeaveRequest updateRequest(LeaveRequest leaveRequest, Long leaveId) {
+		LeaveRequest leave = leaveRepo.findByLeaveId(leaveId);
+		leaveRequest.setApprove(leave.getApprove());
+		leaveRequest.setEmpid(leave.getEmpid());
+		leaveRequest.setLeaveId(leave.getLeaveId());
+		leaveRequest.setStatus(leave.isStatus());
+
+		
+		return leaveRepo.save(leaveRequest);
+	}
 	
 	public void deleteRequest(long leaveId) {
 		leaveRepo.deleteById(leaveId);
@@ -246,13 +277,17 @@ public class AdminService {
 		return meeting;
 	}
 	
-	public Meetings updateMeeting(Meetings meeting, long requestId) {
-		Optional<Meetings> meet = meetingsRepo.findById(requestId);
-		return meetingsRepo.save(meeting);
-	}	
-	
 	public void deleteMeeting(long requestId) {
 		meetingsRepo.deleteById(requestId);
+	}
+	
+	public Meetings updateMeeting(Meetings meeting, Long requestId) {
+		Meetings meet = meetingsRepo.findByRequestId(requestId);
+		meeting.setApprove(meet.getApprove());
+		meeting.setEmpid(meet.getEmpid());
+		meeting.setRoomId(meet.getRoomId());
+		meeting.setRequestId(meet.getRequestId());	
+		return meetingsRepo.save(meeting);
 	}
 	
 	public ResponseEntity<Object> approveMeeting(Meetings meetings, Long requestId, String approve) {
@@ -289,10 +324,15 @@ public class AdminService {
 		return training;
 	}
 	
-	public Training updateTraining(Training training, long requestId) {
-		Optional<Training> train = trainingRepo.findById(requestId);
+	
+	public Training updateTraining(Training training, Long requestId) {
+		Training train = trainingRepo.findByRequestId(requestId);
+		training.setApprove(train.getApprove());
+		training.setEmpid(train.getEmpid());
+		training.setRoomId(train.getRoomId());
+		training.setRequestId(train.getRequestId());	
 		return trainingRepo.save(training);
-	}	
+	}
 	
 	public void deleteTraining(long requestId) {
 		trainingRepo.deleteById(requestId);

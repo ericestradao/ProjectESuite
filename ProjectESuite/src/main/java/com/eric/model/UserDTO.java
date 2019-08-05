@@ -6,7 +6,7 @@ public class UserDTO {
 	private Long empid;
 	private String f_name;
 	private String l_name;
-	private Float contacno;
+	private Long contacno;
 	private Department dept_id;
 
 	public String getUsername() {
@@ -49,11 +49,11 @@ public class UserDTO {
 		this.l_name = l_name;
 	}
 
-	public Float getContacno() {
+	public Long getContacno() {
 		return contacno;
 	}
 
-	public void setContacno(Float contacno) {
+	public void setContacno(Long contacno) {
 		this.contacno = contacno;
 	}
 
